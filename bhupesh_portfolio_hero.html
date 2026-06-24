@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhupesh Chandra Dimri — Financial Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --orange: #E8722A; --orange-glow: rgba(232,114,42,0.35); --gold: #C8972A;
+  --cream: #F5EDD6; --dark: #0A0806;
+  --glass-bg: rgba(255,255,255,0.06); --glass-border: rgba(255,255,255,0.12);
+  --glass-hover: rgba(255,255,255,0.1);
+}
+html,body { width:100%; overflow-x:hidden; background:var(--dark); color:#fff; font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; }
+
+/* ── HERO ── */
+#hero { position:relative; width:100%; height:100vh; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+#video-bg { position:absolute; inset:-60px; width:calc(100% + 120px); height:calc(100% + 120px); object-fit:cover; filter:blur(28px) brightness(0.35) saturate(1.4); transform:scale(1.12); z-index:0; }
+.grad-overlay { position:absolute; inset:0; z-index:1; pointer-events:none; }
+.grad-top { background:linear-gradient(180deg,rgba(10,8,6,.85) 0%,rgba(10,8,6,.3) 30%,transparent 55%); }
+.grad-bottom { background:linear-gradient(0deg,rgba(10,8,6,.95) 0%,rgba(10,8,6,.6) 25%,transparent 55%); }
+.grad-sides { background:linear-gradient(90deg,rgba(10,8,6,.75) 0%,transparent 35%,transparent 65%,rgba(10,8,6,.75) 100%); }
+.grad-vignette { background:radial-gradient(ellipse 90% 80% at 50% 50%,transparent 40%,rgba(10,8,6,.55) 100%); }
+#cinematic-canvas { position:absolute; inset:0; z-index:2; pointer-events:none; opacity:0; transition:opacity 2s ease; }
+#cinematic-canvas.ready { opacity:1; }
+#video-wrap { position:absolute; right:8%; bottom:0; width:min(38vw,540px); height:min(80vh,860px); z-index:3; opacity:0; transform:translateY(40px); }
+#video-main { width:100%; height:100%; object-fit:cover; object-position:center top;
+  mask-image:linear-gradient(180deg,transparent 0%,#000 10%,#000 75%,transparent 100%),linear-gradient(90deg,transparent 0%,#000 8%,#000 100%);
+  mask-composite:intersect;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 10%,#000 75%,transparent 100%),linear-gradient(90deg,transparent 0%,#000 8%,#000 100%);
+  -webkit-mask-composite:destination-in; filter:brightness(1.05) contrast(1.08); }
+.person-glow { position:absolute; bottom:-20px; left:50%; transform:translateX(-50%); width:70%; height:180px; background:radial-gradient(ellipse,rgba(232,114,42,.28) 0%,transparent 70%); pointer-events:none; z-index:2; }
+
+/* ── CONTENT ── */
+#content { position:relative; z-index:5; width:55%; padding:0 0 0 8vw; user-select:none; }
+.eyebrow { display:flex; align-items:center; gap:10px; margin-bottom:28px; opacity:0; }
+.eyebrow-line { width:32px; height:1px; background:var(--orange); }
+.eyebrow-text { font-size:10px; font-weight:500; letter-spacing:.25em; text-transform:uppercase; color:var(--orange); }
+.name-block { overflow:hidden; margin-bottom:20px; }
+.name-first,.name-last { display:block; font-family:'Playfair Display',serif; font-weight:900; line-height:.92; letter-spacing:-.02em;
+  background:linear-gradient(135deg,#fff 0%,var(--cream) 50%,rgba(200,151,42,.7) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; opacity:0; transform:translateY(60px); }
+.name-first { font-size:clamp(52px,7vw,104px); }
+.name-last  { font-size:clamp(52px,7vw,104px); }
+.role-line { margin-bottom:32px; opacity:0; transform:translateY(20px); }
+.role-title { font-size:clamp(13px,1.4vw,17px); font-weight:300; letter-spacing:.06em; color:rgba(255,255,255,.75); line-height:1.8; }
+.role-accent { color:var(--orange); font-weight:500; }
+.stats-row { display:flex; gap:28px; margin-bottom:40px; opacity:0; transform:translateY(20px); }
+.stat { display:flex; flex-direction:column; gap:3px; }
+.stat-num { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:var(--orange); line-height:1; }
+.stat-label { font-size:10px; font-weight:400; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.4); }
+.stat-divider { width:1px; height:36px; background:rgba(255,255,255,.12); align-self:center; }
+.cta-row { display:flex; align-items:center; gap:16px; opacity:0; transform:translateY(20px); }
+.btn-primary { display:inline-flex; align-items:center; gap:8px; padding:13px 28px; background:var(--orange); color:#fff; font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; border:none; border-radius:2px; cursor:pointer; transition:background .3s,transform .2s; text-decoration:none; }
+.btn-primary:hover { background:#d4641f; transform:translateY(-1px); }
+.btn-primary svg { width:14px; height:14px; fill:none; stroke:#fff; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.btn-ghost { display:inline-flex; align-items:center; gap:8px; padding:13px 24px; background:var(--glass-bg); color:rgba(255,255,255,.8); font-size:12px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; border:1px solid var(--glass-border); border-radius:2px; cursor:pointer; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); transition:background .3s,border-color .3s; text-decoration:none; }
+.btn-ghost:hover { background:var(--glass-hover); border-color:rgba(255,255,255,.22); }
+
+/* ── CONTROLS ── */
+#media-controls { position:absolute; bottom:36px; right:8%; z-index:10; display:flex; align-items:center; gap:10px; opacity:0; }
+.ctrl-btn { width:44px; height:44px; border-radius:50%; background:var(--glass-bg); border:1px solid var(--glass-border); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); color:rgba(255,255,255,.85); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .25s,transform .2s; }
+.ctrl-btn:hover { background:var(--glass-hover); transform:scale(1.06); }
+.ctrl-btn svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+#sound-hint { position:absolute; top:32px; left:50%; transform:translateX(-50%); z-index:10; display:flex; align-items:center; gap:8px; padding:8px 16px; background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:100px; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); opacity:0; transition:opacity .5s; pointer-events:none; white-space:nowrap; }
+.hint-pulse { width:8px; height:8px; border-radius:50%; background:var(--orange); animation:hintPulse 1.6s ease-in-out infinite; }
+.hint-text { font-size:11px; font-weight:400; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.7); }
+@keyframes hintPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+
+/* ── SCROLL ── */
+#scroll-indicator { position:absolute; bottom:36px; left:50%; transform:translateX(-50%); z-index:10; display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer; opacity:0; }
+.scroll-label { font-size:9px; font-weight:500; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.4); }
+.scroll-track { width:1px; height:52px; background:rgba(255,255,255,.15); position:relative; overflow:hidden; }
+.scroll-fill { position:absolute; top:0; left:0; width:100%; background:var(--orange); animation:scrollFill 2s ease-in-out infinite; }
+@keyframes scrollFill { 0%{height:0;top:0} 50%{height:100%;top:0} 100%{height:0;top:100%} }
+
+/* ── NAV BAR (sticky) ── */
+#site-nav { position:sticky; top:0; z-index:50; background:rgba(10,8,6,.92); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid rgba(255,255,255,.07); display:flex; align-items:center; justify-content:space-between; padding:0 8vw; height:60px; }
+.nav-logo { font-family:'Playfair Display',serif; font-size:16px; font-weight:700; color:#fff; letter-spacing:-.01em; text-decoration:none; }
+.nav-links { display:flex; gap:32px; list-style:none; }
+.nav-links a { font-size:11px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.5); text-decoration:none; transition:color .25s; }
+.nav-links a:hover { color:var(--orange); }
+
+/* ── SHARED SECTION STYLES ── */
+.portfolio-section { padding:100px 8vw; border-top:1px solid rgba(255,255,255,.05); }
+.portfolio-section:nth-child(even) { background:rgba(255,255,255,.015); }
+.sec-header { margin-bottom:56px; }
+.sec-eyebrow { font-size:10px; font-weight:500; letter-spacing:.28em; text-transform:uppercase; color:var(--orange); margin-bottom:14px; display:flex; align-items:center; gap:10px; }
+.sec-eyebrow::before { content:''; display:block; width:24px; height:1px; background:var(--orange); }
+.sec-title { font-family:'Playfair Display',serif; font-size:clamp(32px,4.5vw,58px); font-weight:700; color:#fff; line-height:1.08; }
+.sec-sub { margin-top:12px; font-size:14px; color:rgba(255,255,255,.4); line-height:1.7; max-width:520px; }
+
+/* ── SKILLS SECTION ── */
+.skills-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+.skill-card { padding:24px; border:1px solid rgba(255,255,255,.08); border-radius:4px; background:rgba(255,255,255,.03); transition:border-color .3s,background .3s,transform .3s; cursor:default; }
+.skill-card:hover { border-color:rgba(232,114,42,.35); background:rgba(232,114,42,.05); transform:translateY(-3px); }
+.skill-icon { font-size:22px; margin-bottom:12px; }
+.skill-name { font-size:13px; font-weight:600; letter-spacing:.05em; color:#fff; margin-bottom:8px; }
+.skill-desc { font-size:12px; color:rgba(255,255,255,.45); line-height:1.6; }
+
+/* ── CERTIFICATIONS ── */
+.certs-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; }
+.cert-card { display:flex; align-items:flex-start; gap:16px; padding:22px 24px; border:1px solid rgba(255,255,255,.08); border-radius:6px; background:rgba(255,255,255,.03); text-decoration:none; color:inherit; transition:border-color .3s,background .3s,transform .3s; }
+.cert-card:hover { border-color:rgba(232,114,42,.4); background:rgba(232,114,42,.06); transform:translateY(-3px); }
+.cert-icon-wrap { width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; background:rgba(232,114,42,.12); border:1px solid rgba(232,114,42,.2); }
+.cert-body { flex:1; min-width:0; }
+.cert-name { font-size:13px; font-weight:600; color:#fff; margin-bottom:4px; line-height:1.4; }
+.cert-issuer { font-size:11px; color:var(--orange); letter-spacing:.06em; margin-bottom:6px; }
+.cert-meta { font-size:11px; color:rgba(255,255,255,.3); }
+.cert-badge { display:inline-block; margin-top:8px; padding:3px 9px; font-size:10px; letter-spacing:.08em; font-weight:500; border-radius:100px; background:rgba(100,200,100,.1); border:1px solid rgba(100,200,100,.25); color:rgba(140,220,140,.9); }
+
+/* ── BADGES ── */
+.badges-wrap { display:flex; flex-wrap:wrap; gap:14px; }
+.badge-pill { display:inline-flex; align-items:center; gap:9px; padding:10px 18px; border-radius:100px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); font-size:12px; font-weight:500; color:rgba(255,255,255,.75); letter-spacing:.04em; transition:background .25s,border-color .25s,color .25s; text-decoration:none; cursor:pointer; }
+.badge-pill:hover { background:rgba(232,114,42,.12); border-color:rgba(232,114,42,.35); color:#fff; }
+.badge-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.badge-dot.orange { background:var(--orange); }
+.badge-dot.gold   { background:var(--gold); }
+.badge-dot.blue   { background:#4A9EDB; }
+.badge-dot.green  { background:#5CB882; }
+.badge-dot.purple { background:#9B7FDB; }
+
+/* ── PROJECTS ── */
+.projects-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:24px; }
+.project-card { border:1px solid rgba(255,255,255,.08); border-radius:6px; overflow:hidden; background:rgba(255,255,255,.025); transition:border-color .3s,transform .3s; text-decoration:none; color:inherit; display:flex; flex-direction:column; }
+.project-card:hover { border-color:rgba(232,114,42,.35); transform:translateY(-4px); }
+.project-card:hover .proj-arrow { transform:translate(3px,-3px); }
+.proj-top { padding:24px 24px 0; flex:1; }
+.proj-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+.proj-tag { padding:3px 10px; font-size:10px; font-weight:500; letter-spacing:.08em; border-radius:2px; background:rgba(232,114,42,.12); border:1px solid rgba(232,114,42,.2); color:var(--orange); }
+.proj-tag.blue { background:rgba(74,158,219,.1); border-color:rgba(74,158,219,.2); color:#7BBAE4; }
+.proj-tag.green { background:rgba(92,184,130,.1); border-color:rgba(92,184,130,.2); color:#7DC9A0; }
+.proj-tag.purple { background:rgba(155,127,219,.1); border-color:rgba(155,127,219,.2); color:#B9A3E6; }
+.proj-name { font-size:15px; font-weight:600; color:#fff; margin-bottom:10px; line-height:1.3; }
+.proj-desc { font-size:12px; color:rgba(255,255,255,.45); line-height:1.7; }
+.proj-bottom { display:flex; align-items:center; justify-content:space-between; padding:16px 24px; border-top:1px solid rgba(255,255,255,.06); margin-top:20px; }
+.proj-impact { font-size:11px; color:rgba(255,255,255,.35); }
+.proj-impact strong { color:var(--orange); font-weight:600; }
+.proj-arrow { font-size:14px; color:rgba(255,255,255,.35); transition:transform .25s; }
+
+/* ── ARTICLES ── */
+.articles-list { display:flex; flex-direction:column; gap:0; }
+.article-row { display:flex; align-items:flex-start; gap:24px; padding:28px 0; border-bottom:1px solid rgba(255,255,255,.06); text-decoration:none; color:inherit; transition:background .2s; cursor:pointer; }
+.article-row:last-child { border-bottom:none; }
+.article-row:hover .article-title { color:var(--orange); }
+.article-row:hover .article-arrow { transform:translate(4px,0); color:var(--orange); }
+.article-num { font-family:'Playfair Display',serif; font-size:13px; font-weight:700; color:rgba(255,255,255,.15); width:28px; flex-shrink:0; padding-top:2px; }
+.article-body { flex:1; min-width:0; }
+.article-meta { display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap; }
+.article-platform { font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--orange); }
+.article-date { font-size:10px; color:rgba(255,255,255,.25); }
+.article-category { padding:2px 9px; border-radius:100px; font-size:10px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); color:rgba(255,255,255,.4); }
+.article-title { font-size:15px; font-weight:600; color:#fff; line-height:1.4; margin-bottom:6px; transition:color .25s; }
+.article-excerpt { font-size:12px; color:rgba(255,255,255,.4); line-height:1.7; }
+.article-arrow { font-size:16px; color:rgba(255,255,255,.2); flex-shrink:0; padding-top:2px; transition:transform .25s,color .25s; }
+
+/* ── FOOTER ── */
+#site-footer { padding:60px 8vw 48px; border-top:1px solid rgba(255,255,255,.07); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px; }
+.footer-name { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:rgba(255,255,255,.7); }
+.footer-links { display:flex; gap:20px; flex-wrap:wrap; }
+.footer-links a { font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.3); text-decoration:none; transition:color .25s; }
+.footer-links a:hover { color:var(--orange); }
+.footer-copy { font-size:11px; color:rgba(255,255,255,.2); }
+
+/* ── RESUME MODAL ── */
+#resume-modal { display:none; position:fixed; inset:0; z-index:100; align-items:center; justify-content:center; background:rgba(10,8,6,.92); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); padding:40px 20px; }
+#resume-modal.open { display:flex; }
+.modal-box { max-width:700px; width:100%; max-height:88vh; overflow-y:auto; background:#13100D; border:1px solid rgba(255,255,255,.1); border-radius:6px; padding:48px; position:relative; }
+.modal-close { position:absolute; top:20px; right:20px; width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); color:rgba(255,255,255,.7); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s; }
+.modal-close:hover { background:rgba(255,255,255,.12); }
+.modal-name { font-family:'Playfair Display',serif; font-size:32px; font-weight:700; color:#fff; margin-bottom:4px; }
+.modal-title { font-size:13px; color:var(--orange); letter-spacing:.1em; text-transform:uppercase; margin-bottom:32px; }
+.modal-section-title { font-size:10px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.35); margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,.07); }
+.modal-highlight-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:32px; }
+.modal-stat { padding:16px; background:rgba(232,114,42,.08); border:1px solid rgba(232,114,42,.18); border-radius:4px; }
+.modal-stat-num { font-family:'Playfair Display',serif; font-size:28px; font-weight:700; color:var(--orange); line-height:1; margin-bottom:4px; }
+.modal-stat-label { font-size:11px; color:rgba(255,255,255,.5); line-height:1.4; }
+.modal-skills-wrap { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:32px; }
+.modal-skill-tag { padding:5px 12px; font-size:11px; color:rgba(255,255,255,.65); border:1px solid rgba(255,255,255,.1); border-radius:2px; letter-spacing:.05em; }
+.modal-exp-item { margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid rgba(255,255,255,.05); }
+.modal-exp-item:last-child { border-bottom:none; }
+.modal-exp-company { font-size:13px; font-weight:600; color:#fff; margin-bottom:2px; }
+.modal-exp-role { font-size:11px; color:var(--orange); margin-bottom:2px; letter-spacing:.05em; }
+.modal-exp-period { font-size:11px; color:rgba(255,255,255,.3); }
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  #content{width:100%;padding:0 6vw;}
+  #video-wrap{right:-5%;width:60vw;opacity:0.5;}
+  .stats-row{gap:16px;}
+  .modal-highlight-grid{grid-template-columns:1fr;}
+  .modal-box{padding:32px 24px;}
+  .nav-links{display:none;}
+  .projects-grid{grid-template-columns:1fr;}
+  .certs-grid{grid-template-columns:1fr;}
+  #site-footer{flex-direction:column;gap:16px;}
+}
+@media(max-width:500px){
+  #video-wrap{display:none;}
+  #content{padding:0 5vw;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <video id="video-bg" autoplay loop muted playsinline></video>
+  <div class="grad-overlay grad-top"></div>
+  <div class="grad-overlay grad-sides"></div>
+  <div class="grad-overlay grad-vignette"></div>
+  <div class="grad-overlay grad-bottom"></div>
+  <canvas id="cinematic-canvas"></canvas>
+  <div id="video-wrap">
+    <video id="video-main" autoplay loop muted playsinline></video>
+    <div class="person-glow"></div>
+  </div>
+  <div id="sound-hint">
+    <div class="hint-pulse"></div>
+    <span class="hint-text">Tap for Sound</span>
+  </div>
+  <div id="content">
+    <div class="eyebrow" id="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Financial Analyst · New York</span>
+    </div>
+    <div class="name-block">
+      <span class="name-first" id="name-first">Bhupesh</span>
+      <span class="name-last" id="name-last">Dimri</span>
+    </div>
+    <div class="role-line" id="role-line">
+      <p class="role-title">
+        <span class="role-accent">FP&amp;A · Financial Modeling · Data Analytics</span><br>
+        9+ Years in Banking &amp; Financial Services<br>
+        JPMorgan Chase · SQL · Python · Power BI
+      </p>
+    </div>
+    <div class="stats-row" id="stats-row">
+      <div class="stat"><span class="stat-num">27%</span><span class="stat-label">Forecast Accuracy</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">$50M+</span><span class="stat-label">Budgets Managed</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">9+</span><span class="stat-label">Years Experience</span></div>
+    </div>
+    <div class="cta-row" id="cta-row">
+      <button class="btn-primary" onclick="openResume()">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        View Resume
+      </button>
+      <a class="btn-ghost" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank">LinkedIn →</a>
+    </div>
+  </div>
+  <div id="media-controls">
+    <button class="ctrl-btn" onclick="toggleMute()">
+      <svg id="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+      <svg id="icon-unmuted" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+    </button>
+    <button class="ctrl-btn" onclick="togglePlay()">
+      <svg id="icon-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      <svg id="icon-play" viewBox="0 0 24 24" style="display:none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    </button>
+  </div>
+  <div id="scroll-indicator" onclick="scrollNext()">
+    <span class="scroll-label">Scroll</span>
+    <div class="scroll-track"><div class="scroll-fill"></div></div>
+  </div>
+</section>
+
+<!-- ═══ STICKY NAV ═══ -->
+<nav id="site-nav">
+  <a class="nav-logo" href="#hero">BD</a>
+  <ul class="nav-links">
+    <li><a href="#section-skills">Expertise</a></li>
+    <li><a href="#section-certs">Certifications</a></li>
+    <li><a href="#section-badges">Badges</a></li>
+    <li><a href="#section-projects">Projects</a></li>
+    <li><a href="#section-articles">Articles</a></li>
+    <li><a href="https://www.linkedin.com/in/bhupeshdimri" target="_blank">LinkedIn ↗</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ SKILLS ═══ -->
+<section id="section-skills" class="portfolio-section">
+  <div class="sec-header">
+    <div class="sec-eyebrow">Core Expertise</div>
+    <h2 class="sec-title">Finance Meets<br>Technology</h2>
+    <p class="sec-sub">A rare blend of institutional finance depth and modern data engineering — built over 9+ years across banking, FP&A, and analytics.</p>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card"><div class="skill-icon">📊</div><div class="skill-name">FP&amp;A &amp; Forecasting</div><div class="skill-desc">Rolling budgets, scenario modeling, variance frameworks across multiple business units at JPMorgan Chase.</div></div>
+    <div class="skill-card"><div class="skill-icon">🛢️</div><div class="skill-name">SQL &amp; Python</div><div class="skill-desc">Automated data pipelines, Pandas/NumPy analytics, predictive models improving accuracy by 27%.</div></div>
+    <div class="skill-card"><div class="skill-icon">📈</div><div class="skill-name">Power BI &amp; Tableau</div><div class="skill-desc">Real-time executive dashboards reducing reporting latency from 48 hours to under 2 hours.</div></div>
+    <div class="skill-card"><div class="skill-icon">🏦</div><div class="skill-name">ERP Systems</div><div class="skill-desc">Oracle Fusion Cloud, SAP, NetSuite — deep integration, automation and cross-system reconciliation.</div></div>
+    <div class="skill-card"><div class="skill-icon">⚖️</div><div class="skill-name">GAAP &amp; Compliance</div><div class="skill-desc">US GAAP, IFRS, SOX 404 — audit readiness with zero major observations track record.</div></div>
+    <div class="skill-card"><div class="skill-icon">🔬</div><div class="skill-name">Quant Modeling</div><div class="skill-desc">CVaR, sensitivity analysis, stochastic models, multi-asset portfolio evaluation and scenario stress testing.</div></div>
+  </div>
+</section>
+
+<!-- ═══ CERTIFICATIONS ═══ -->
+<section id="section-certs" class="portfolio-section">
+  <div class="sec-header">
+    <div class="sec-eyebrow">Credentials</div>
+    <h2 class="sec-title">Certifications</h2>
+    <p class="sec-sub">Industry-recognized credentials spanning finance, analytics, ERP, and emerging technology.</p>
+  </div>
+  <div class="certs-grid">
+
+    <a class="cert-card" href="https://education.oracle.com/oracle-fusion-cloud-erp" target="_blank">
+      <div class="cert-icon-wrap">🔴</div>
+      <div class="cert-body">
+        <div class="cert-name">Oracle Fusion Cloud ERP Process Essentials</div>
+        <div class="cert-issuer">Oracle · Release 1</div>
+        <div class="cert-meta">Enterprise Resource Planning</div>
+        <span class="cert-badge">✓ Certified</span>
+      </div>
+    </a>
+
+    <a class="cert-card" href="https://www.intuit.com/professional-tax-training/" target="_blank">
+      <div class="cert-icon-wrap">🟢</div>
+      <div class="cert-body">
+        <div class="cert-name">Intuit Academy Tax Exam — Level 1</div>
+        <div class="cert-issuer">Intuit · TurboTax</div>
+        <div class="cert-meta">US Federal Tax · Individual Returns</div>
+        <span class="cert-badge">✓ Certified</span>
+      </div>
+    </a>
+
+    <a class="cert-card" href="https://www.theforage.com/virtual-internships/prototype/io9DzWKe3PTsiS6GS/Data-Analytics-Virtual-Experience" target="_blank">
+      <div class="cert-icon-wrap">🔵</div>
+      <div class="cert-body">
+        <div class="cert-name">Data Analytics Job Simulation</div>
+        <div class="cert-issuer">Deloitte Australia · Forage</div>
+        <div class="cert-meta">Data Analytics · Business Intelligence</div>
+        <span class="cert-badge">✓ Certified</span>
+      </div>
+    </a>
+
+    <a class="cert-card" href="https://www.coursera.org/learn/blockchain-accounting" target="_blank">
+      <div class="cert-icon-wrap">🟣</div>
+      <div class="cert-body">
+        <div class="cert-name">Blockchain Accounting — Tokenization of Assets</div>
+        <div class="cert-issuer">Blockchain Council · Course #2</div>
+        <div class="cert-meta">Proficiency Level · DeFi &amp; Web3 Finance</div>
+        <span class="cert-badge">✓ Certified</span>
+      </div>
+    </a>
+
+    <a class="cert-card" href="https://www.coursera.org/learn/python" target="_blank">
+      <div class="cert-icon-wrap">🟡</div>
+      <div class="cert-body">
+        <div class="cert-name">Learn How to Code</div>
+        <div class="cert-issuer">Coursera · Programming Fundamentals</div>
+        <div class="cert-meta">Python · Scripting · Data Automation</div>
+        <span class="cert-badge">✓ Certified</span>
+      </div>
+    </a>
+
+    <a class="cert-card" href="https://www.pace.edu/lubin" target="_blank">
+      <div class="cert-icon-wrap">🎓</div>
+      <div class="cert-body">
+        <div class="cert-name">M.S. Accounting Analytics &amp; Data Technology</div>
+        <div class="cert-issuer">Pace University · Lubin School of Business</div>
+        <div class="cert-meta">Expected December 2025 · GPA Track</div>
+        <span class="cert-badge">In Progress</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ═══ BADGES ═══ -->
+<section id="section-badges" class="portfolio-section">
+  <div class="sec-header">
+    <div class="sec-eyebrow">Skills &amp; Proficiencies</div>
+    <h2 class="sec-title">Verified Badges</h2>
+    <p class="sec-sub">Platform-endorsed skill validations and professional recognition across finance, data, and technology domains.</p>
+  </div>
+  <div class="badges-wrap">
+    <!-- Finance -->
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot orange"></span>Financial Planning &amp; Analysis</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot orange"></span>Financial Modeling</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot orange"></span>Budgeting &amp; Forecasting</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot orange"></span>Variance Analysis</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot orange"></span>Cash Flow Modeling</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot orange"></span>Scenario &amp; Sensitivity Analysis</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot orange"></span>P&amp;L Management</a>
+    <!-- Data & Tech -->
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot blue"></span>SQL</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot blue"></span>Python · Pandas · NumPy</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot blue"></span>Power BI</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot blue"></span>Tableau</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot blue"></span>Advanced Excel &amp; VBA</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot blue"></span>Amazon S3</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot blue"></span>ETL &amp; Data Pipelines</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot blue"></span>Scikit-learn</a>
+    <!-- ERP -->
+    <a class="badge-pill" href="https://education.oracle.com" target="_blank"><span class="badge-dot gold"></span>Oracle Fusion Cloud ERP</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot gold"></span>SAP</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot gold"></span>NetSuite</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot gold"></span>Bloomberg Terminal</a>
+    <!-- Compliance -->
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot green"></span>US GAAP</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot green"></span>IFRS</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot green"></span>SOX 404</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot green"></span>COSO Framework</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot green"></span>Internal Controls &amp; Audit</a>
+    <!-- Emerging -->
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot purple"></span>Blockchain Accounting</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot purple"></span>Tokenization of Assets</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot purple"></span>Predictive Analytics</a>
+    <a class="badge-pill" href="https://www.linkedin.com/in/bhupeshdimri" target="_blank"><span class="badge-dot purple"></span>Workflow Automation &amp; RPA</a>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section id="section-projects" class="portfolio-section">
+  <div class="sec-header">
+    <div class="sec-eyebrow">Portfolio</div>
+    <h2 class="sec-title">Featured Projects</h2>
+    <p class="sec-sub">Real-world finance and analytics builds — each one solving a measurable business problem with data-driven precision.</p>
+  </div>
+  <div class="projects-grid">
+
+    <a class="project-card" href="https://github.com/bhupesh-debug" target="_blank">
+      <div class="proj-top">
+        <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag blue">SQL</span><span class="proj-tag green">Power BI</span></div>
+        <div class="proj-name">Enterprise Forecasting Pipeline — JPMorgan Chase</div>
+        <div class="proj-desc">End-to-end rolling budget system integrating SQL data pipelines with Python predictive models across multiple business units. Includes automated variance reporting and real-time Power BI dashboards.</div>
+      </div>
+      <div class="proj-bottom">
+        <div class="proj-impact">Impact: <strong>+27% forecast accuracy</strong> · 48hr → 2hr latency</div>
+        <div class="proj-arrow">↗</div>
+      </div>
+    </a>
+
+    <a class="project-card" href="https://github.com/bhupesh-debug" target="_blank">
+      <div class="proj-top">
+        <div class="proj-tags"><span class="proj-tag">Excel VBA</span><span class="proj-tag blue">SQL</span><span class="proj-tag purple">Tableau</span></div>
+        <div class="proj-name">$50M+ Budget Intelligence System</div>
+        <div class="proj-desc">Integrated financial planning suite combining revenue forecasting, cost allocation, and cash flow projections. Sensitivity-driven scenario framework for volatile business cycle planning.</div>
+      </div>
+      <div class="proj-bottom">
+        <div class="proj-impact">Impact: <strong>24% reliability gain</strong> · 30% faster decisions</div>
+        <div class="proj-arrow">↗</div>
+      </div>
+    </a>
+
+    <a class="project-card" href="https://github.com/bhupesh-debug" target="_blank">
+      <div class="proj-top">
+        <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag blue">Scikit-learn</span><span class="proj-tag green">NumPy</span></div>
+        <div class="proj-name">Quant Alpha Engine — Multi-Asset Analysis</div>
+        <div class="proj-desc">Institutional-grade quantitative research system covering Monte Carlo option pricing, CVaR portfolio optimization, and Hidden Markov Model regime detection. Inspired by Citadel &amp; Jane Street desk architecture.</div>
+      </div>
+      <div class="proj-bottom">
+        <div class="proj-impact">Models: <strong>Heston · Black-Litterman · HMM · CVaR</strong></div>
+        <div class="proj-arrow">↗</div>
+      </div>
+    </a>
+
+    <a class="project-card" href="https://github.com/bhupesh-debug" target="_blank">
+      <div class="proj-top">
+        <div class="proj-tags"><span class="proj-tag">Oracle ERP</span><span class="proj-tag blue">SAP</span><span class="proj-tag green">NetSuite</span></div>
+        <div class="proj-name">Cross-ERP Financial Consolidation Framework</div>
+        <div class="proj-desc">Unified financial data consolidation engine spanning SAP and NetSuite, improving data integrity and reducing reconciliation discrepancies. SOX-compliant audit trail and GAAP reporting layer.</div>
+      </div>
+      <div class="proj-bottom">
+        <div class="proj-impact">Impact: <strong>-20% reconciliation gaps</strong> · Zero audit findings</div>
+        <div class="proj-arrow">↗</div>
+      </div>
+    </a>
+
+    <a class="project-card" href="https://github.com/bhupesh-debug" target="_blank">
+      <div class="proj-top">
+        <div class="proj-tags"><span class="proj-tag">Power BI</span><span class="proj-tag blue">DAX</span><span class="proj-tag purple">KPI Design</span></div>
+        <div class="proj-name">Executive KPI Intelligence Dashboard</div>
+        <div class="proj-desc">Real-time leadership dashboard connecting operational and financial metrics. Consolidated fragmented ERP and transactional sources into a single source of truth with drill-through variance analysis.</div>
+      </div>
+      <div class="proj-bottom">
+        <div class="proj-impact">Impact: <strong>-38% reporting turnaround</strong> · 99.5% accuracy</div>
+        <div class="proj-arrow">↗</div>
+      </div>
+    </a>
+
+    <a class="project-card" href="https://github.com/bhupesh-debug" target="_blank">
+      <div class="proj-top">
+        <div class="proj-tags"><span class="proj-tag">Blockchain</span><span class="proj-tag purple">Web3</span><span class="proj-tag blue">DeFi</span></div>
+        <div class="proj-name">Blockchain Accounting &amp; Asset Tokenization Research</div>
+        <div class="proj-desc">Research and implementation study on tokenization of financial assets, smart contract accounting treatment, and DeFi protocol financial reporting under emerging GAAP frameworks.</div>
+      </div>
+      <div class="proj-bottom">
+        <div class="proj-impact">Focus: <strong>GAAP for Web3 · Token valuation · On-chain audit</strong></div>
+        <div class="proj-arrow">↗</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ═══ ARTICLES ═══ -->
+<section id="section-articles" class="portfolio-section">
+  <div class="sec-header">
+    <div class="sec-eyebrow">Thought Leadership</div>
+    <h2 class="sec-title">Posts &amp; Articles</h2>
+    <p class="sec-sub">Insights on financial analytics, FP&A strategy, and the intersection of finance with modern data technology.</p>
+  </div>
+  <div class="articles-list">
+
+    <a class="article-row" href="https://www.linkedin.com/in/bhupeshdimri/recent-activity/articles/" target="_blank">
+      <div class="article-num">01</div>
+      <div class="article-body">
+        <div class="article-meta">
+          <span class="article-platform">LinkedIn</span>
+          <span class="article-date">2025</span>
+          <span class="article-category">FP&amp;A</span>
+        </div>
+        <div class="article-title">How I Reduced Forecast Error by 27% Using Python + SQL at JPMorgan Chase</div>
+        <div class="article-excerpt">A practitioner's breakdown of building integrated forecasting pipelines — from raw ERP data to executive-ready rolling budgets with predictive accuracy baked in.</div>
+      </div>
+      <div class="article-arrow">↗</div>
+    </a>
+
+    <a class="article-row" href="https://www.linkedin.com/in/bhupeshdimri/recent-activity/articles/" target="_blank">
+      <div class="article-num">02</div>
+      <div class="article-body">
+        <div class="article-meta">
+          <span class="article-platform">LinkedIn</span>
+          <span class="article-date">2025</span>
+          <span class="article-category">Power BI</span>
+        </div>
+        <div class="article-title">From 48 Hours to 2 Hours: Building Real-Time Executive Dashboards in Power BI</div>
+        <div class="article-excerpt">Step-by-step guide on consolidating fragmented ERP sources — Oracle Fusion, SAP, NetSuite — into a single live Power BI reporting layer that eliminates manual refresh cycles.</div>
+      </div>
+      <div class="article-arrow">↗</div>
+    </a>
+
+    <a class="article-row" href="https://www.linkedin.com/in/bhupeshdimri/recent-activity/articles/" target="_blank">
+      <div class="article-num">03</div>
+      <div class="article-body">
+        <div class="article-meta">
+          <span class="article-platform">LinkedIn</span>
+          <span class="article-date">2024</span>
+          <span class="article-category">Financial Modeling</span>
+        </div>
+        <div class="article-title">Sensitivity Analysis That Actually Moves the Needle: A CFO-Ready Framework</div>
+        <div class="article-excerpt">Most sensitivity models show ranges. This one shows decisions. How I built scenario frameworks that reduced financial uncertainty exposure by 22% across a multi-unit portfolio.</div>
+      </div>
+      <div class="article-arrow">↗</div>
+    </a>
+
+    <a class="article-row" href="https://www.linkedin.com/in/bhupeshdimri/recent-activity/articles/" target="_blank">
+      <div class="article-num">04</div>
+      <div class="article-body">
+        <div class="article-meta">
+          <span class="article-platform">LinkedIn</span>
+          <span class="article-date">2024</span>
+          <span class="article-category">Blockchain · Accounting</span>
+        </div>
+        <div class="article-title">Accounting for Tokenized Assets: What GAAP Doesn't Tell You (Yet)</div>
+        <div class="article-excerpt">Exploring the gap between traditional financial reporting and the reality of on-chain asset ownership — including token classification, fair value measurement, and emerging audit challenges.</div>
+      </div>
+      <div class="article-arrow">↗</div>
+    </a>
+
+    <a class="article-row" href="https://www.linkedin.com/in/bhupeshdimri/recent-activity/articles/" target="_blank">
+      <div class="article-num">05</div>
+      <div class="article-body">
+        <div class="article-meta">
+          <span class="article-platform">LinkedIn</span>
+          <span class="article-date">2024</span>
+          <span class="article-category">SOX · Compliance</span>
+        </div>
+        <div class="article-title">SOX 404 Without the Pain: How Finance Teams Can Build Controls That Last</div>
+        <div class="article-excerpt">Practical playbook from 9 years of audit readiness work — how to align reporting processes with SOX requirements, reduce audit findings, and build internal controls that actually scale.</div>
+      </div>
+      <div class="article-arrow">↗</div>
+    </a>
+
+    <a class="article-row" href="https://www.linkedin.com/in/bhupeshdimri/recent-activity/articles/" target="_blank">
+      <div class="article-num">06</div>
+      <div class="article-body">
+        <div class="article-meta">
+          <span class="article-platform">LinkedIn</span>
+          <span class="article-date">2023</span>
+          <span class="article-category">Quant Finance</span>
+        </div>
+        <div class="article-title">Building a Quant Alpha Engine: From Monte Carlo to CVaR Portfolio Optimization</div>
+        <div class="article-excerpt">A deep-dive into the architecture of an institutional-grade quantitative research system — covering Heston stochastic volatility, Black-Litterman allocation, and HMM regime detection.</div>
+      </div>
+      <div class="article-arrow">↗</div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer id="site-footer">
+  <div class="footer-name">Bhupesh Chandra Dimri</div>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/bhupeshdimri" target="_blank">LinkedIn</a>
+    <a href="https://github.com/bhupesh-debug" target="_blank">GitHub</a>
+    <a href="mailto:bhupesh7cd@gmail.com">Email</a>
+    <a href="mailto:bhupesh.d@itjobdesire.com">Work Email</a>
+    <a href="tel:+19178186198">+1 917-818-6198</a>
+  </div>
+  <div class="footer-copy">© 2025 Bhupesh Chandra Dimri · Brooklyn, New York</div>
+</footer>
+
+<!-- ═══ RESUME MODAL ═══ -->
+<div id="resume-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeResume()">✕</button>
+    <div class="modal-name">Bhupesh Chandra Dimri</div>
+    <div class="modal-title">Financial Analyst · JPMorgan Chase</div>
+    <div class="modal-section-title">Key Impact Metrics</div>
+    <div class="modal-highlight-grid">
+      <div class="modal-stat"><div class="modal-stat-num">27%</div><div class="modal-stat-label">Improvement in forecast accuracy via SQL + Python pipelines</div></div>
+      <div class="modal-stat"><div class="modal-stat-num">2hrs</div><div class="modal-stat-label">Reporting latency reduced from 48 hours via Power BI</div></div>
+      <div class="modal-stat"><div class="modal-stat-num">99.5%</div><div class="modal-stat-label">Reporting accuracy after Python workflow automation</div></div>
+      <div class="modal-stat"><div class="modal-stat-num">$50M+</div><div class="modal-stat-label">Annual budgets managed with 24% improvement in reliability</div></div>
+    </div>
+    <div class="modal-section-title">Technical Skills</div>
+    <div class="modal-skills-wrap">
+      <span class="modal-skill-tag">SQL</span><span class="modal-skill-tag">Python (Pandas, NumPy)</span>
+      <span class="modal-skill-tag">Power BI</span><span class="modal-skill-tag">Tableau</span>
+      <span class="modal-skill-tag">Oracle Fusion ERP</span><span class="modal-skill-tag">SAP</span>
+      <span class="modal-skill-tag">NetSuite</span><span class="modal-skill-tag">Excel VBA</span>
+      <span class="modal-skill-tag">Bloomberg Terminal</span><span class="modal-skill-tag">FactSet</span>
+      <span class="modal-skill-tag">US GAAP</span><span class="modal-skill-tag">IFRS</span>
+      <span class="modal-skill-tag">SOX 404</span><span class="modal-skill-tag">Scikit-learn</span>
+      <span class="modal-skill-tag">Power Query</span><span class="modal-skill-tag">Amazon S3</span>
+    </div>
+    <div class="modal-section-title">Experience</div>
+    <div class="modal-exp-item"><div class="modal-exp-company">JPMorgan Chase &amp; Co.</div><div class="modal-exp-role">Financial Analyst</div><div class="modal-exp-period">Jul 2025 – Present · New York, NY</div></div>
+    <div class="modal-exp-item"><div class="modal-exp-company">Virtual Infotech</div><div class="modal-exp-role">Financial Planning &amp; Analysis</div><div class="modal-exp-period">Mar 2021 – Dec 2024 · India</div></div>
+    <div class="modal-exp-item"><div class="modal-exp-company">Green Touch Technology</div><div class="modal-exp-role">Financial Planning Analyst</div><div class="modal-exp-period">Jun 2019 – Feb 2021 · India</div></div>
+    <div class="modal-exp-item"><div class="modal-exp-company">Infinite Infolab</div><div class="modal-exp-role">Financial Analyst – Operations Finance</div><div class="modal-exp-period">Aug 2016 – May 2019 · India</div></div>
+    <div class="modal-section-title">Education</div>
+    <div class="modal-exp-item"><div class="modal-exp-company">Pace University, Lubin School of Business</div><div class="modal-exp-role">M.S. Accounting Analytics &amp; Data Technology</div><div class="modal-exp-period">Dec 2025</div></div>
+    <div class="modal-exp-item"><div class="modal-exp-company">Sikkim Manipal University</div><div class="modal-exp-role">MBA, Finance &amp; Accounting</div><div class="modal-exp-period">2015</div></div>
+    <div class="modal-exp-item"><div class="modal-exp-company">HNB Garhwal University</div><div class="modal-exp-role">Bachelor of Commerce (B.Com)</div><div class="modal-exp-period">2010</div></div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script>
+const VIDEO_PATH = 'bhupesh_hero.mp4';
+function setupVideos() {
+  [document.getElementById('video-bg'), document.getElementById('video-main')].forEach(v => {
+    v.src = VIDEO_PATH; v.muted = true; v.autoplay = true; v.loop = true; v.playsInline = true;
+    v.load(); v.play().catch(()=>{});
+  });
+}
+setupVideos();
+let isMuted = true, isPlaying = true;
+function toggleMute() {
+  const v = document.getElementById('video-main');
+  isMuted = !isMuted; v.muted = isMuted;
+  document.getElementById('icon-muted').style.display = isMuted ? '' : 'none';
+  document.getElementById('icon-unmuted').style.display = isMuted ? 'none' : '';
+  document.getElementById('sound-hint').style.opacity = '0';
+}
+function togglePlay() {
+  const vb = document.getElementById('video-bg'), vm = document.getElementById('video-main');
+  isPlaying = !isPlaying;
+  isPlaying ? (vb.play(), vm.play()) : (vb.pause(), vm.pause());
+  document.getElementById('icon-pause').style.display = isPlaying ? '' : 'none';
+  document.getElementById('icon-play').style.display = isPlaying ? 'none' : '';
+}
+function scrollNext() { document.getElementById('section-skills').scrollIntoView({behavior:'smooth'}); }
+function openResume() { document.getElementById('resume-modal').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeResume() { document.getElementById('resume-modal').classList.remove('open'); document.body.style.overflow=''; }
+document.getElementById('resume-modal').addEventListener('click', e => { if(e.target===e.currentTarget) closeResume(); });
+
+// ── THREE.JS CINEMATIC PARTICLES ──
+(function(){
+  const canvas = document.getElementById('cinematic-canvas');
+  const renderer = new THREE.WebGLRenderer({canvas,alpha:true,antialias:false});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  renderer.setClearColor(0x000000,0);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60,1,0.1,1000);
+  camera.position.z = 28;
+  const N = 280;
+  const pos=new Float32Array(N*3), col=new Float32Array(N*3), sz=new Float32Array(N), ph=new Float32Array(N), sp=new Float32Array(N);
+  const palette=[[1,.55,.18],[1,.78,.42],[1,.95,.8],[.95,.42,.12],[1,1,.95]];
+  for(let i=0;i<N;i++){
+    pos[i*3]=(Math.random()-.5)*38; pos[i*3+1]=(Math.random()-.5)*26; pos[i*3+2]=(Math.random()-.5)*20;
+    const c=palette[Math.floor(Math.random()*palette.length)];
+    col[i*3]=c[0]; col[i*3+1]=c[1]; col[i*3+2]=c[2];
+    const r=Math.random();
+    sz[i]=r<.6?2+Math.random()*4:r<.85?8+Math.random()*14:20+Math.random()*30;
+    ph[i]=Math.random()*Math.PI*2; sp[i]=.18+Math.random()*.45;
+  }
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(pos.slice(),3));
+  geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  geo.setAttribute('size',new THREE.BufferAttribute(sz,1));
+  const mat=new THREE.PointsMaterial({size:1,sizeAttenuation:true,vertexColors:true,transparent:true,opacity:.55,blending:THREE.AdditiveBlending,depthWrite:false});
+  scene.add(new THREE.Points(geo,mat));
+  let mx=0,my=0,tx=0,ty=0;
+  document.addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5)*2; my=(e.clientY/innerHeight-.5)*2;});
+  function resize(){
+    const w=canvas.offsetWidth||innerWidth, h=canvas.offsetHeight||innerHeight;
+    renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
+  }
+  resize(); window.addEventListener('resize',resize);
+  const pa=geo.attributes.position.array; let clk=0;
+  function animate(){
+    requestAnimationFrame(animate); clk+=.008;
+    for(let i=0;i<N;i++){
+      pa[i*3+1]+=Math.sin(clk*sp[i]+ph[i])*.004;
+      pa[i*3]+=Math.cos(clk*sp[i]*.7+ph[i])*.002;
+      if(pa[i*3+1]>20) pa[i*3+1]=-20;
+      if(pa[i*3+1]<-20) pa[i*3+1]=20;
+    }
+    geo.attributes.position.needsUpdate=true;
+    tx+=(mx*2.5-tx)*.04; ty+=(my*2-ty)*.04;
+    camera.position.x=tx; camera.position.y=-ty;
+    mat.opacity=.42+Math.sin(clk*.8)*.08;
+    renderer.render(scene,camera);
+  }
+  animate();
+  setTimeout(()=>canvas.classList.add('ready'),800);
+  window.addEventListener('beforeunload',()=>{geo.dispose();mat.dispose();renderer.dispose();});
+})();
+
+// ── GSAP ENTRANCE ──
+window.addEventListener('load',()=>{
+  gsap.to('#video-wrap',{opacity:1,y:0,duration:1.6,delay:.4,ease:'power2.out'});
+  const tl=gsap.timeline({delay:.5});
+  tl.to('#eyebrow',{opacity:1,duration:.8,ease:'power2.out'})
+    .to('#name-first',{opacity:1,y:0,duration:1,ease:'power3.out'},'-=.3')
+    .to('#name-last',{opacity:1,y:0,duration:1,ease:'power3.out'},'-=.7')
+    .to('#role-line',{opacity:1,y:0,duration:.8,ease:'power2.out'},'-=.5')
+    .to('#stats-row',{opacity:1,y:0,duration:.7,ease:'power2.out'},'-=.4')
+    .to('#cta-row',{opacity:1,y:0,duration:.7,ease:'power2.out'},'-=.4')
+    .to('#media-controls',{opacity:1,duration:.8,ease:'power2.out'},'-=.3')
+    .to('#scroll-indicator',{opacity:1,duration:.8,ease:'power2.out'},'-=.2');
+  gsap.to('#sound-hint',{opacity:1,duration:.8,delay:2.5,ease:'power2.out',onComplete:()=>{
+    gsap.to('#sound-hint',{opacity:0,duration:.8,delay:4,ease:'power2.inOut'});
+  }});
+});
+
+// ── SMOOTH NAV SCROLL ──
+document.querySelectorAll('#site-nav a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+  });
+});
+</script>
+</body>
+</html>
